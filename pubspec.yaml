@@ -39,6 +39,8 @@ dependencies:
   cached_network_image: ^3.3.1
   google_fonts: ^6.2.0
   web_smooth_scroll: ^1.1.0
+  flutter_blurhash: ^0.8.2
+  flutter_map: ^6.1.0
 
 dev_dependencies:
   flutter_test:

@@ -4,11 +4,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:machine/presentation/colors.dart';
 import 'package:machine/presentation/fonts.dart';
+import 'package:machine/presentation/shared/blur.dart';
 import 'package:machine/presentation/widgets/triangle_painter.dart';
 import 'package:octo_image/octo_image.dart';
-import 'package:web_smooth_scroll/web_smooth_scroll.dart';
+import 'package:latlong2/latlong.dart';
 
 void main() {
   runApp(const MyApp());
@@ -66,6 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       OctoImage(
                           fit: BoxFit.cover,
                           height: 1350,
+                          placeholderBuilder: blurHashPlaceholderBuilder(
+                              "LFD]rG^+M{M{0000xu-;~q~qWBD%"),
                           width: MediaQuery.of(context).size.width,
                           image: const CachedNetworkImageProvider(
                               "https://regionavto164.ru/wp-content/uploads/2021/04/w_f994e09b.jpg")),
@@ -125,6 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           fit: BoxFit.cover,
                           height: 1350,
                           width: MediaQuery.of(context).size.width,
+                          placeholderBuilder: blurHashPlaceholderBuilder(
+                              "LFD]rG^+M{M{0000xu-;~q~qWBD%"),
                           image: const CachedNetworkImageProvider(
                               "https://regionavto164.ru/wp-content/uploads/2021/04/w_f994e09b.jpg")),
                       Container(
@@ -151,6 +158,46 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
+                  height: 720,
+                  child: Stack(
+                    children: [
+                      IgnorePointer(
+                        child: FlutterMap(
+                            options: MapOptions(
+                                initialCenter: LatLng(
+                                    54.7352526406467, 55.958523199814756),
+                                initialZoom: 16.0),
+                            children: [
+                              TileLayer(
+                                urlTemplate:
+                                    "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+                              ),
+                              MarkerLayer(markers: [
+                                Marker(
+                                    point: LatLng(54.7349, 55.9604),
+                                    child: Container(
+                                      width: 20,
+                                      height: 20,
+                                      color: Colors.red,
+                                    ))
+                              ])
+                            ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Блок карты",
+                            style:
+                                MyFonts.catalog.copyWith(color: Colors.black),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
                   height: 315,
                   color: MyColors.footerBackground,
                 )
@@ -163,13 +210,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
   @override
-  Set<PointerDeviceKind> get dragDevices => { 
-    PointerDeviceKind.touch,
-    PointerDeviceKind.mouse,
-    // etc.
-  };
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        // etc.
+      };
 }
