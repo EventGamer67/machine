@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
-import 'package:flutter_mail_server/flutter_mail_server.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_page_view_indicator/flutter_page_view_indicator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:machine/presentation/colors.dart';
 import 'package:machine/presentation/fonts.dart';
 import 'package:machine/presentation/shared/blur.dart';
@@ -16,7 +17,7 @@ import 'package:machine/presentation/widgets/triangle_painter.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/yandex.dart';
 import 'package:octo_image/octo_image.dart';
-import 'dart:html' as html;
+import 'package:latlong2/latlong.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   int _currentIndex = 0;
+  int _currentIndex2 = 0;
   bool _validate = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
@@ -66,27 +68,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void sendMessage(TextEditingController nameController,
       TextEditingController emailController) async {
-    final Uri emailLaunchUri = Uri(
-      scheme: 'mailto',
-      path: 'remm1e@yandex.ru',
-      queryParameters: {
-        'subject': 'Hello Flutter',
-        'body': 'This is a test email from Flutter web.',
-      },
-    );
-    html.window.open(emailLaunchUri.toString(), '_self');
-
-    // final smtp = yandex("remm1e@yandex.ru", "nqwityycozcldjji");
-    // final message = Message()
-    //   ..from = const Address("remm1e@yandex.ru", 'Test')
-    //   ..recipients.add(_emailController.text)
-    //   ..subject = "Ответ от нас"
-    //   ..text = 'Спасибо за отклик, ${_nameController.text}';
+    final smtp = yandex("remm1e@yandex.ru", "nqwityycozcldjji");
+    final message = Message()
+      ..from = const Address("remm1e@yandex.ru", 'Test')
+      ..recipients.add(emailController.text)
+      ..subject = "Ответ от нас"
+      ..text = 'Спасибо за отклик, ${nameController.text}';
 
     try {
-      // final sendReport = await send(message, smtp);
-      // log('message sended success $sendReport');
-      // _nameController.clear();
+      final sendReport = await send(message, smtp);
+      log('message sended success $sendReport');
+      nameController.clear();
       emailController.clear();
     } on MailerException catch (e) {
       log('message not send ${e.message}');
@@ -101,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
         scrollBehavior: MyCustomScrollBehavior(),
         slivers: [
           SliverAppBar(
+            backgroundColor: Colors.white,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15),
@@ -109,14 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(color: Colors.black),
-                        child: const Text(
-                          "ЛОГОТИП",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      Image.asset(
+                        'logo.jpg',
+                        width: 120,
+                        height: 200,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -171,14 +160,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(color: Colors.black),
-                        child: const Text(
-                          "ЛОГОТИП",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      Image.asset(
+                        'logo.jpg',
+                        width: 120,
+                        height: 200,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -263,15 +248,49 @@ class _MyHomePageState extends State<MyHomePage> {
                       Align(
                         alignment: Alignment.center,
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 2000),
+                          constraints: const BoxConstraints(maxWidth: 2200),
                           child: Container(
-                            margin: const EdgeInsets.only(top: 120),
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Первый блок',
-                                  style: MyFonts.catalog,
-                                )),
+                            margin: const EdgeInsets.only(top: 360, left: 100),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset("assets/vdetalax.svg"),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'г. Саратов, ул. Астраханская 47',
+                                  style: MyFonts.header2,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    _scrollController.animateTo(
+                                      2200,
+                                      duration: const Duration(seconds: 1),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Container(
+                                        margin: const EdgeInsets.only(top: 30),
+                                        decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.white),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        padding: const EdgeInsets.all(16),
+                                        child: const Text(
+                                          'ОТПРАВИТЬ ЗАЯВКУ',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 24),
+                                        ),
+                                      )),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -289,19 +308,78 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
-                  height: 600,
+                  height: 1000,
                   width: double.infinity,
                   decoration: const BoxDecoration(color: MyColors.primary),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Второй блок",
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        height: double.infinity,
+                        child: PageView(
+                          onPageChanged: (page) {
+                            setState(() {
+                              _currentIndex2 = page;
+                            });
+                          },
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Image.asset(
+                              'catalog1.avif',
+                              fit: BoxFit.cover,
+                            ),
+                            Image.asset('catalog2.avif', fit: BoxFit.cover),
+                            Image.asset('catalog3.avif', fit: BoxFit.cover),
+                            Image.asset('catalog4.avif', fit: BoxFit.cover),
+                            Image.asset('catalog5.avif', fit: BoxFit.cover),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: CustomPaint(
+                          size: const Size(double.infinity, 60),
+                          painter: TrianglePainter(
+                              color: MyColors.primary,
+                              flipVertical: true,
+                              flipHorizontal: true),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: CustomPaint(
+                          size: const Size(double.infinity, 60),
+                          painter: TrianglePainter(
+                              color: MyColors.primary,
+                              flipVertical: false,
+                              flipHorizontal: false),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: PageViewIndicator(
+                          length: 5,
+                          currentIndex: _currentIndex2,
+                          currentSize: 10,
+                          currentColor: Colors.white,
+                          otherColor: Colors.black,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 40),
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "НАШ КАТАЛОГ",
                           style: MyFonts.catalog,
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Stack(
+                          children: [],
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -322,175 +400,181 @@ class _MyHomePageState extends State<MyHomePage> {
                         decoration: BoxDecoration(
                             color: Colors.black45.withOpacity(0.9),
                             borderRadius: BorderRadius.circular(20)),
-                        child: Column(
-                          children: [
-                            const Icon(
-                              Icons.car_crash_sharp,
-                              size: 200,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              "ОСТАВЬТЕ ЗАЯВКУ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize:
-                                    MediaQuery.sizeOf(context).width > 1000
-                                        ? 40
-                                        : 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              "Менеджер свяжется с вами в течении 15 минут.",
-                              style: TextStyle(
-                                color: Colors.white54,
-                                fontSize:
-                                    MediaQuery.sizeOf(context).width > 1000
-                                        ? 24
-                                        : 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              "Ответит на все вопросы и поможет оформить заказ.",
-                              style: TextStyle(
-                                color: Colors.white54,
-                                fontSize:
-                                    MediaQuery.sizeOf(context).width > 1000
-                                        ? 24
-                                        : 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 40),
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                child: TextField(
-                                  controller: _nameController,
-                                  decoration: InputDecoration(
-                                      errorText: _validate
-                                          ? "Поле обязательно для заполнения."
-                                          : null,
-                                      filled: true,
-                                      hintText: "Ваше имя*",
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 800),
+                            child: Column(
+                              children: [
+                                const Icon(
+                                  Icons.car_crash_sharp,
+                                  size: 200,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                child: TextField(
-                                  controller: _numberController,
-                                  decoration: InputDecoration(
-                                      errorText: _validate
-                                          ? "Поле обязательно для заполнения."
-                                          : null,
-                                      filled: true,
-                                      hintText: "Ваш телефон*",
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                child: TextField(
-                                  controller: _emailController,
-                                  decoration: InputDecoration(
-                                      errorText: _validate
-                                          ? "Поле обязательно для заполнения."
-                                          : null,
-                                      filled: true,
-                                      hintText: "Ваша почта",
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                child: TextField(
-                                  controller: _vinController,
-                                  decoration: InputDecoration(
-                                      errorText: _validate
-                                          ? "Поле обязательно для заполнения."
-                                          : null,
-                                      errorStyle:
-                                          const TextStyle(color: Colors.red),
-                                      filled: true,
-                                      hintText: "VIN-номер авто*",
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                child: TextField(
-                                  controller: _productController,
-                                  decoration: InputDecoration(
-                                      errorText: _validate
-                                          ? "Поле обязательно для заполнения."
-                                          : null,
-                                      errorStyle:
-                                          const TextStyle(color: Colors.red),
-                                      filled: true,
-                                      hintText: "Запчасть*",
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (_nameController.text.isEmpty ||
-                                    _numberController.text.isEmpty ||
-                                    _emailController.text.isEmpty ||
-                                    _productController.text.isEmpty) {
-                                  _validate = true;
-                                } else {
-                                  sendMessage(
-                                      _nameController, _emailController);
-                                }
-                              },
-                              style: const ButtonStyle(
-                                  textStyle: WidgetStatePropertyAll<TextStyle>(
-                                      TextStyle(
-                                    fontSize: 16,
+                                Text(
+                                  "ОСТАВЬТЕ ЗАЯВКУ",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.sizeOf(context).width > 1000
+                                            ? 40
+                                            : 22,
                                     fontWeight: FontWeight.bold,
-                                  )),
-                                  foregroundColor:
-                                      WidgetStatePropertyAll<Color>(
-                                          Colors.black),
-                                  backgroundColor:
-                                      WidgetStatePropertyAll<Color>(
-                                          Colors.white)),
-                              child: const Text("ОТПРАВИТЬ"),
-                            )
-                          ],
+                                  ),
+                                ),
+                                Text(
+                                  "Менеджер свяжется с вами в течении 15 минут.",
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize:
+                                        MediaQuery.sizeOf(context).width > 1000
+                                            ? 24
+                                            : 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  "Ответит на все вопросы и поможет оформить заказ.",
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize:
+                                        MediaQuery.sizeOf(context).width > 1000
+                                            ? 24
+                                            : 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 40),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: TextField(
+                                      controller: _nameController,
+                                      decoration: InputDecoration(
+                                          errorText: _validate
+                                              ? "Поле обязательно для заполнения."
+                                              : null,
+                                          filled: true,
+                                          hintText: "Ваше имя*",
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: TextField(
+                                      controller: _numberController,
+                                      decoration: InputDecoration(
+                                          errorText: _validate
+                                              ? "Поле обязательно для заполнения."
+                                              : null,
+                                          filled: true,
+                                          hintText: "Ваш телефон*",
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: TextField(
+                                      controller: _emailController,
+                                      decoration: InputDecoration(
+                                          errorText: _validate
+                                              ? "Поле обязательно для заполнения."
+                                              : null,
+                                          filled: true,
+                                          hintText: "Ваша почта",
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: TextField(
+                                      controller: _vinController,
+                                      decoration: InputDecoration(
+                                          errorText: _validate
+                                              ? "Поле обязательно для заполнения."
+                                              : null,
+                                          errorStyle:
+                                              const TextStyle(color: Colors.red),
+                                          filled: true,
+                                          hintText: "VIN-номер авто*",
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: TextField(
+                                      controller: _productController,
+                                      decoration: InputDecoration(
+                                          errorText: _validate
+                                              ? "Поле обязательно для заполнения."
+                                              : null,
+                                          errorStyle:
+                                              const TextStyle(color: Colors.red),
+                                          filled: true,
+                                          hintText: "Запчасть*",
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    if (_nameController.text.isEmpty ||
+                                        _numberController.text.isEmpty ||
+                                        _emailController.text.isEmpty ||
+                                        _productController.text.isEmpty) {
+                                      _validate = true;
+                                    } else {
+                                      sendMessage(
+                                          _nameController, _emailController);
+                                    }
+                                  },
+                                  style: const ButtonStyle(
+                                      textStyle: WidgetStatePropertyAll<TextStyle>(
+                                          TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                      foregroundColor:
+                                          WidgetStatePropertyAll<Color>(
+                                              Colors.black),
+                                      backgroundColor:
+                                          WidgetStatePropertyAll<Color>(
+                                              Colors.white)),
+                                  child: const Text("ОТПРАВИТЬ"),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       Align(
@@ -510,34 +594,33 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 720,
                   child: Stack(
                     children: [
-                      // IgnorePointer(
-                      //   child: FlutterMap(
-                      //       options: MapOptions(
-                      //           initialCenter: LatLng(
-                      //               54.7352526406467, 55.958523199814756),
-                      //           initialZoom: 16.0),
-                      //       children: [
-                      //         TileLayer(
-                      //           urlTemplate:
-                      //               "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png",
-                      //         ),
-                      //         MarkerLayer(markers: [
-                      //           Marker(
-                      //               point: LatLng(54.7349, 55.9604),
-                      //               child: Container(
-                      //                 width: 20,
-                      //                 height: 20,
-                      //                 color: Colors.red,
-                      //               ))
-                      //         ])
-                      //       ]),
-                      // ),
+                      IgnorePointer(
+                        child: FlutterMap(
+                            options: const MapOptions(
+                                initialCenter: LatLng(51.532201, 46.005061),
+                                initialZoom: 16.0),
+                            children: [
+                              TileLayer(
+                                urlTemplate:
+                                    "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+                              ),
+                              MarkerLayer(markers: [
+                                Marker(
+                                    point: const LatLng(51.532201, 46.005061),
+                                    child: Image.asset(
+                                      'marker.png',
+                                      width: 200,
+                                      height: 200,
+                                    ))
+                              ])
+                            ]),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "Блок карты",
+                            "НАШЕ МЕСТОПОЛОЖЕНИЕ",
                             style:
                                 MyFonts.catalog.copyWith(color: Colors.black),
                           ),
@@ -562,7 +645,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 100),
                                 child: Text(
-                                  "Контакты магазина автозапчастей НАЗВАНИЕ",
+                                  "Контакты магазина автозапчастей 'В ДЕТАЛЯХ'",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 40,
@@ -694,6 +777,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                             fontSize: 40,
                                             fontWeight: FontWeight.bold),
                                       ),
+                                      Text(
+                                        "https://vk.com/v.detalah",
+                                        style: TextStyle(
+                                            color: Colors.lightGreen,
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -741,7 +831,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: SizedBox(
               width: 500,
               child: Text(
-                "«Надёжность, качество, успех!» — девиз нашей компании. Мы поставляем запчасти для автомобилей  иностранных производителей оптовым и розничным покупателям.  Наличие собственного склада и розничного магазина делает наше взаимодействие с клиентами максимально удобным.",
+                "'Точность, надежность, процветание!' — это девиз нашей компании, которая специализируется на поставках запчастей для автомобилей иностранных марок. Мы обслуживаем как оптовых, так и розничных клиентов, предлагая широкий ассортимент продукции. Наличие собственного склада и розничного магазина гарантирует быстрое и комфортное обслуживание каждого клиента.",
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -762,7 +852,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           SizedBox(
             width: 500,
-            height: 300,
+            height: 220,
             child: PageView(
               onPageChanged: (value) {
                 setState(() {
@@ -780,7 +870,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(20),
                     child: const Text(
-                      '«Надёжность, качество, успех!» — девиз нашей компании. Мы поставляем запчасти для автомобилей  иностранных производителей оптовым и розничным покупателям.  Наличие собственного склада и розничного магазина делает наше взаимодействие с клиентами максимально удобным.',
+                      'Как менеджер нашего магазина, я всегда готов помочь клиентам подобрать нужные запчасти, используя наш обширный каталог и экспертные знания.',
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.w700),
                       textAlign: TextAlign.center,
@@ -802,13 +892,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Первый директор",
+                              "Менеджер по продажам",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              "АВТО АВТО",
+                              "В ДЕТАЛЯХ",
                               style: TextStyle(color: Colors.white30),
                             )
                           ],
@@ -825,7 +915,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(20),
                     child: const Text(
-                      '«Надёжность, качество, успех!» — девиз нашей компании. Мы поставляем запчасти для автомобилей  иностранных производителей оптовым и розничным покупателям.  Наличие собственного склада и розничного магазина делает наше взаимодействие с клиентами максимально удобным.',
+                      'Как консультант в розничном магазине, я всегда на связи, чтобы ответить на любые вопросы клиентов и помочь им с выбором, используя наш персонализированный подход к каждому покупателю.',
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.w700),
                       textAlign: TextAlign.center,
@@ -843,6 +933,21 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.white,
                           ),
                         ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Консультант",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "В ДЕТАЛЯХ",
+                              style: TextStyle(color: Colors.white30),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   )
