@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
 
@@ -52,9 +53,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController _scrollController;
+  late final PageController pageController;
+  late final Timer pageSwitcher;
   @override
   void initState() {
     _scrollController = ScrollController();
+    pageController = PageController();
+    pageSwitcher = Timer.periodic(const Duration(seconds: 4), (timer) {
+      pageController.animateToPage(
+          _currentIndex2 + 1 > 4 ? 0 : _currentIndex2 + 1,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeInOutSine);
+    });
     super.initState();
   }
 
@@ -317,6 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       SizedBox(
                         height: double.infinity,
                         child: PageView(
+                          controller: pageController,
                           onPageChanged: (page) {
                             setState(() {
                               _currentIndex2 = page;
@@ -325,14 +336,46 @@ class _MyHomePageState extends State<MyHomePage> {
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           children: [
-                            Image.asset(
-                              'catalog1.avif',
-                              fit: BoxFit.cover,
-                            ),
-                            Image.asset('catalog2.avif', fit: BoxFit.cover),
-                            Image.asset('catalog3.avif', fit: BoxFit.cover),
-                            Image.asset('catalog4.avif', fit: BoxFit.cover),
-                            Image.asset('catalog5.avif', fit: BoxFit.cover),
+                            OctoImage(
+                                fit: BoxFit.cover,
+                                height: 1350,
+                                width: MediaQuery.of(context).size.width,
+                                placeholderBuilder: blurHashPlaceholderBuilder(
+                                    "L8EVyrI8k?xV009ax^-:?w?HxUM|"),
+                                image: const CachedNetworkImageProvider(
+                                    "https://i.imgur.com/StTQTb8.png")),
+                            OctoImage(
+                                fit: BoxFit.cover,
+                                height: 1350,
+                                width: MediaQuery.of(context).size.width,
+                                placeholderBuilder: blurHashPlaceholderBuilder(
+                                    "L9E.;FwG0LM{00t7D*NH~U-;Iqt7"),
+                                image: const CachedNetworkImageProvider(
+                                    "https://imgur.com/xX2Lnoj.png")),
+                            OctoImage(
+                                fit: BoxFit.cover,
+                                height: 1350,
+                                width: MediaQuery.of(context).size.width,
+                                placeholderBuilder: blurHashPlaceholderBuilder(
+                                    "LAE{X@~TMxD*00?H?F-:-ls+%3f4"),
+                                image: const CachedNetworkImageProvider(
+                                    "https://imgur.com/74wzzXI.png")),
+                            OctoImage(
+                                fit: BoxFit.cover,
+                                height: 1350,
+                                width: MediaQuery.of(context).size.width,
+                                placeholderBuilder: blurHashPlaceholderBuilder(
+                                    "L4CZY7Q,4TITICRS9F-o08Dio,%1"),
+                                image: const CachedNetworkImageProvider(
+                                    "https://imgur.com/m3jni6v.png")),
+                            OctoImage(
+                                fit: BoxFit.cover,
+                                height: 1350,
+                                width: MediaQuery.of(context).size.width,
+                                placeholderBuilder: blurHashPlaceholderBuilder(
+                                    "LADvvL00EknhD4_44oW8?bIUtR-q"),
+                                image: const CachedNetworkImageProvider(
+                                    "https://imgur.com/zxYyhLM.png")),
                           ],
                         ),
                       ),
@@ -561,16 +604,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   style: const ButtonStyle(
                                       textStyle:
-                                          MaterialStatePropertyAll<TextStyle>(
+                                          WidgetStatePropertyAll<TextStyle>(
                                               TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       )),
                                       foregroundColor:
-                                          MaterialStatePropertyAll<Color>(
+                                          WidgetStatePropertyAll<Color>(
                                               Colors.black),
                                       backgroundColor:
-                                          MaterialStatePropertyAll<Color>(
+                                          WidgetStatePropertyAll<Color>(
                                               Colors.white)),
                                   child: const Text("ОТПРАВИТЬ"),
                                 )
@@ -748,31 +791,31 @@ class _MyHomePageState extends State<MyHomePage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.call,
                                     color: Colors.lightGreen,
                                     size: 50,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 100,
                                   ),
                                   Column(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Для связи:",
                                         style: TextStyle(
                                             color: Colors.lightGreen,
                                             fontSize: 40,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(
+                                      const Text(
                                         "+7 (987) 327-77-34",
                                         style: TextStyle(
                                             color: Colors.lightGreen,
                                             fontSize: 40,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(
+                                      const Text(
                                         "v.detalyah64@mail.ru",
                                         style: TextStyle(
                                             color: Colors.lightGreen,
@@ -785,8 +828,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             'https://vk.com/v.detalah'),
                                         builder: (context, followLink) =>
                                             GestureDetector(
-                                              onTap: followLink,
-                                          child: Text(
+                                          onTap: followLink,
+                                          child: const Text(
                                             "https://vk.com/v.detalah",
                                             style: TextStyle(
                                                 color: Colors.lightGreen,
