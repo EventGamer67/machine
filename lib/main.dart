@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _currentIndex = 0;
   int _currentIndex2 = 0;
+  bool _hovering = false;
   bool _validate = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
@@ -748,31 +749,31 @@ class _MyHomePageState extends State<MyHomePage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.call,
                                     color: Colors.lightGreen,
                                     size: 50,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 100,
                                   ),
                                   Column(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Для связи:",
                                         style: TextStyle(
                                             color: Colors.lightGreen,
                                             fontSize: 40,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(
+                                      const Text(
                                         "+7 (987) 327-77-34",
                                         style: TextStyle(
                                             color: Colors.lightGreen,
                                             fontSize: 40,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(
+                                      const Text(
                                         "v.detalyah64@mail.ru",
                                         style: TextStyle(
                                             color: Colors.lightGreen,
@@ -784,9 +785,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                         uri: Uri.parse(
                                             'https://vk.com/v.detalah'),
                                         builder: (context, followLink) =>
-                                            GestureDetector(
-                                              onTap: followLink,
-                                          child: Text(
+                                            InkWell(
+                                          onTap: followLink,
+                                          child: const Text(
                                             "https://vk.com/v.detalah",
                                             style: TextStyle(
                                                 color: Colors.lightGreen,
