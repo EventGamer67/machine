@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       scrollBehavior: MyCustomScrollBehavior(),
-      title: 'Flutter Demooo',
+      title: 'В ДЕТАЛЯХ',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _currentIndex = 0;
   int _currentIndex2 = 0;
+  final bool _hovering = false;
   bool _validate = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
@@ -109,15 +110,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15))),
-            title: MediaQuery.sizeOf(context).width > 900
+            title: MediaQuery.sizeOf(context).width > 1100
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Image.asset(
-                        'logo.jpg',
-                        width: 120,
-                        height: 200,
-                      ),
+                      Container(
+                          padding: const EdgeInsets.only(
+                              top: 7, left: 15, right: 15, bottom: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black),
+                          child: SvgPicture.asset(
+                            'vdetalax.svg',
+                            width: 100,
+                          )),
                       GestureDetector(
                         onTap: () {
                           _scrollController.animateTo(
@@ -171,11 +177,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Image.asset(
-                        'logo.jpg',
-                        width: 120,
-                        height: 200,
-                      ),
+                      Container(
+                          padding: const EdgeInsets.only(
+                              top: 7, left: 15, right: 15, bottom: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black),
+                          child: SvgPicture.asset(
+                            'vdetalax.svg',
+                            width: 100,
+                          )),
                       GestureDetector(
                         onTap: () {
                           _scrollController.animateTo(
@@ -261,17 +272,31 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 2200),
                           child: Container(
-                            margin: const EdgeInsets.only(top: 360, left: 100),
+                            margin: EdgeInsets.only(
+                                top: 360,
+                                left: MediaQuery.sizeOf(context).width < 900
+                                    ? 50
+                                    : 100),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SvgPicture.asset("assets/vdetalax.svg"),
+                                SvgPicture.asset(
+                                  "assets/vdetalax.svg",
+                                  height: MediaQuery.sizeOf(context).width < 900
+                                      ? 100
+                                      : 200,
+                                ),
                                 const SizedBox(
                                   height: 20,
                                 ),
                                 Text(
                                   'г. Саратов, ул. Астраханская 47',
-                                  style: MyFonts.header2,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.sizeOf(context).width < 900
+                                              ? 20
+                                              : 50),
                                 ),
                                 GestureDetector(
                                   onTap: () {
@@ -969,7 +994,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(20),
                     child: const Text(
-                      'Как консультант в розничном магазине, я всегда на связи, чтобы ответить на любые вопросы клиентов и помочь им с выбором, используя наш персонализированный подход к каждому покупателю.',
+                      'Как консультант, я всегда на связи, чтобы ответить на любые вопросы клиентов и помочь им с выбором, используя свой подход к каждому покупателю.',
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.w700),
                       textAlign: TextAlign.center,
