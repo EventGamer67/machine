@@ -18,6 +18,7 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/yandex.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/link.dart';
 
 void main() {
   runApp(const MyApp());
@@ -511,8 +512,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           errorText: _validate
                                               ? "Поле обязательно для заполнения."
                                               : null,
-                                          errorStyle:
-                                              const TextStyle(color: Colors.red),
+                                          errorStyle: const TextStyle(
+                                              color: Colors.red),
                                           filled: true,
                                           hintText: "VIN-номер авто*",
                                           fillColor: Colors.white,
@@ -532,8 +533,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           errorText: _validate
                                               ? "Поле обязательно для заполнения."
                                               : null,
-                                          errorStyle:
-                                              const TextStyle(color: Colors.red),
+                                          errorStyle: const TextStyle(
+                                              color: Colors.red),
                                           filled: true,
                                           hintText: "Запчасть*",
                                           fillColor: Colors.white,
@@ -559,16 +560,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                     }
                                   },
                                   style: const ButtonStyle(
-                                      textStyle: WidgetStatePropertyAll<TextStyle>(
-                                          TextStyle(
+                                      textStyle:
+                                          MaterialStatePropertyAll<TextStyle>(
+                                              TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       )),
                                       foregroundColor:
-                                          WidgetStatePropertyAll<Color>(
+                                          MaterialStatePropertyAll<Color>(
                                               Colors.black),
                                       backgroundColor:
-                                          WidgetStatePropertyAll<Color>(
+                                          MaterialStatePropertyAll<Color>(
                                               Colors.white)),
                                   child: const Text("ОТПРАВИТЬ"),
                                 )
@@ -743,7 +745,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       color: Colors.white,
                                     )),
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
@@ -777,12 +779,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                             fontSize: 40,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(
-                                        "https://vk.com/v.detalah",
-                                        style: TextStyle(
-                                            color: Colors.lightGreen,
-                                            fontSize: 40,
-                                            fontWeight: FontWeight.bold),
+                                      Link(
+                                        target: LinkTarget.blank,
+                                        uri: Uri.parse(
+                                            'https://vk.com/v.detalah'),
+                                        builder: (context, followLink) =>
+                                            GestureDetector(
+                                              onTap: followLink,
+                                          child: Text(
+                                            "https://vk.com/v.detalah",
+                                            style: TextStyle(
+                                                color: Colors.lightGreen,
+                                                fontSize: 40,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
