@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
-import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_mail_server/flutter_mail_server.dart';
 import 'package:flutter_page_view_indicator/flutter_page_view_indicator.dart';
 import 'package:machine/presentation/colors.dart';
 import 'package:machine/presentation/fonts.dart';
@@ -16,7 +16,7 @@ import 'package:machine/presentation/widgets/triangle_painter.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/yandex.dart';
 import 'package:octo_image/octo_image.dart';
-import 'package:latlong2/latlong.dart';
+import 'dart:html' as html;
 
 void main() {
   runApp(const MyApp());
@@ -58,26 +58,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _currentIndex = 0;
   bool _validate = false;
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _numberController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _productController = TextEditingController();
-  TextEditingController _vinController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _productController = TextEditingController();
+  final TextEditingController _vinController = TextEditingController();
 
-  void sendMessage(TextEditingController _nameController,
-      TextEditingController _emailController) async {
-    final smtp = yandex("remm1e@yandex.ru", "nqwityycozcldjji");
-    final message = Message()
-      ..from = const Address("remm1e@yandex.ru", 'Test')
-      ..recipients.add(_emailController.text)
-      ..subject = "Ответ от нас"
-      ..text = 'Спасибо за отклик, ${_nameController.text}';
+  void sendMessage(TextEditingController nameController,
+      TextEditingController emailController) async {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: 'remm1e@yandex.ru',
+      queryParameters: {
+        'subject': 'Hello Flutter',
+        'body': 'This is a test email from Flutter web.',
+      },
+    );
+    html.window.open(emailLaunchUri.toString(), '_self');
+
+    // final smtp = yandex("remm1e@yandex.ru", "nqwityycozcldjji");
+    // final message = Message()
+    //   ..from = const Address("remm1e@yandex.ru", 'Test')
+    //   ..recipients.add(_emailController.text)
+    //   ..subject = "Ответ от нас"
+    //   ..text = 'Спасибо за отклик, ${_nameController.text}';
 
     try {
-      final sendReport = await send(message, smtp);
-      log('message sended success $sendReport');
-      _nameController.clear();
-      _emailController.clear();
+      // final sendReport = await send(message, smtp);
+      // log('message sended success $sendReport');
+      // _nameController.clear();
+      emailController.clear();
     } on MailerException catch (e) {
       log('message not send ${e.message}');
     }
@@ -91,142 +101,154 @@ class _MyHomePageState extends State<MyHomePage> {
         scrollBehavior: MyCustomScrollBehavior(),
         slivers: [
           SliverAppBar(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15))),
-            title: MediaQuery.sizeOf(context).width > 900 ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  margin: EdgeInsets.all(8),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.black),
-                  child: Text(
-                    "ЛОГОТИП",
-                    style: TextStyle(color: Colors.white),
+            title: MediaQuery.sizeOf(context).width > 900
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(8),
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(color: Colors.black),
+                        child: const Text(
+                          "ЛОГОТИП",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _scrollController.animateTo(
+                            1200,
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Text("Каталог"),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _scrollController.animateTo(
+                            2200,
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Text("Оставьте заявку"),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _scrollController.animateTo(
+                            4000,
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Text("Контакты"),
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(8),
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(color: Colors.black),
+                        child: const Text(
+                          "ЛОГОТИП",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _scrollController.animateTo(
+                            1200,
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Icon(
+                            Icons.list,
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _scrollController.animateTo(
+                            2200,
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Icon(
+                            Icons.send_to_mobile,
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _scrollController.animateTo(
+                            4000,
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Icon(
+                            Icons.call,
+                            size: 30,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _scrollController.animateTo(
-                      1200,
-                      duration: Duration(seconds: 1),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text("Каталог"),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _scrollController.animateTo(
-                      2200,
-                      duration: Duration(seconds: 1),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text("Оставьте заявку"),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _scrollController.animateTo(
-                      4000,
-                      duration: Duration(seconds: 1),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Text("Контакты"),
-                  ),
-                ),
-              ],
-            ) : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  margin: EdgeInsets.all(8),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.black),
-                  child: Text(
-                    "ЛОГОТИП",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _scrollController.animateTo(
-                      1200,
-                      duration: Duration(seconds: 1),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Icon(Icons.list, size: 30, color: Colors.black,),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _scrollController.animateTo(
-                      2200,
-                      duration: Duration(seconds: 1),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Icon(Icons.send_to_mobile, size: 30, color: Colors.black,),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _scrollController.animateTo(
-                      4000,
-                      duration: Duration(seconds: 1),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Icon(Icons.call, size: 30, color: Colors.black,),
-                  ),
-                ),
-              ],
-            ),
             floating: true,
           ),
           SliverToBoxAdapter(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
+                SizedBox(
                   height: 1350,
                   child: Stack(
                     children: [
@@ -241,20 +263,22 @@ class _MyHomePageState extends State<MyHomePage> {
                       Align(
                         alignment: Alignment.center,
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 2000),
+                          constraints: const BoxConstraints(maxWidth: 2000),
                           child: Container(
-                            margin: EdgeInsets.only(top: 120),
+                            margin: const EdgeInsets.only(top: 120),
                             child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text('Первый блок', style: MyFonts.catalog,)
-                            ),
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  'Первый блок',
+                                  style: MyFonts.catalog,
+                                )),
                           ),
                         ),
                       ),
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: CustomPaint(
-                          size: Size(double.infinity, 120),
+                          size: const Size(double.infinity, 120),
                           painter: TrianglePainter(
                               color: MyColors.primary,
                               flipVertical: false,
@@ -269,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: double.infinity,
                   decoration: const BoxDecoration(color: MyColors.primary),
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
                         Text(
@@ -280,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 1350,
                   child: Stack(
                     children: [
@@ -293,13 +317,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           image: const CachedNetworkImageProvider(
                               "https://regionavto164.ru/wp-content/uploads/2021/04/w_f994e09b.jpg")),
                       Container(
-                        padding: EdgeInsets.only(right: 50, left: 50, top: 300),
+                        padding: const EdgeInsets.only(
+                            right: 50, left: 50, top: 300),
                         decoration: BoxDecoration(
                             color: Colors.black45.withOpacity(0.9),
                             borderRadius: BorderRadius.circular(20)),
                         child: Column(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.car_crash_sharp,
                               size: 200,
                               color: Colors.white,
@@ -340,7 +365,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 40),
                               child: Container(
-                                padding: EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(20),
                                 child: TextField(
                                   controller: _nameController,
                                   decoration: InputDecoration(
@@ -359,7 +384,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5),
                               child: Container(
-                                padding: EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(20),
                                 child: TextField(
                                   controller: _numberController,
                                   decoration: InputDecoration(
@@ -378,7 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5),
                               child: Container(
-                                padding: EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(20),
                                 child: TextField(
                                   controller: _emailController,
                                   decoration: InputDecoration(
@@ -397,14 +422,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5),
                               child: Container(
-                                padding: EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(20),
                                 child: TextField(
                                   controller: _vinController,
                                   decoration: InputDecoration(
                                       errorText: _validate
                                           ? "Поле обязательно для заполнения."
                                           : null,
-                                      errorStyle: TextStyle(color: Colors.red),
+                                      errorStyle:
+                                          const TextStyle(color: Colors.red),
                                       filled: true,
                                       hintText: "VIN-номер авто*",
                                       fillColor: Colors.white,
@@ -417,14 +443,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5),
                               child: Container(
-                                padding: EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(20),
                                 child: TextField(
                                   controller: _productController,
                                   decoration: InputDecoration(
                                       errorText: _validate
                                           ? "Поле обязательно для заполнения."
                                           : null,
-                                      errorStyle: TextStyle(color: Colors.red),
+                                      errorStyle:
+                                          const TextStyle(color: Colors.red),
                                       filled: true,
                                       hintText: "Запчасть*",
                                       fillColor: Colors.white,
@@ -434,7 +461,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             ElevatedButton(
@@ -449,20 +476,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                       _nameController, _emailController);
                                 }
                               },
-                              child: Text("ОТПРАВИТЬ"),
-                              style: ButtonStyle(
-                                  textStyle:
-                                      MaterialStatePropertyAll<TextStyle>(
-                                          TextStyle(
+                              style: const ButtonStyle(
+                                  textStyle: WidgetStatePropertyAll<TextStyle>(
+                                      TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   )),
                                   foregroundColor:
-                                      MaterialStatePropertyAll<Color>(
+                                      WidgetStatePropertyAll<Color>(
                                           Colors.black),
                                   backgroundColor:
-                                      MaterialStatePropertyAll<Color>(
+                                      WidgetStatePropertyAll<Color>(
                                           Colors.white)),
+                              child: const Text("ОТПРАВИТЬ"),
                             )
                           ],
                         ),
@@ -480,34 +506,34 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 720,
                   child: Stack(
                     children: [
-                      IgnorePointer(
-                        child: FlutterMap(
-                            options: MapOptions(
-                                initialCenter: LatLng(
-                                    54.7352526406467, 55.958523199814756),
-                                initialZoom: 16.0),
-                            children: [
-                              TileLayer(
-                                urlTemplate:
-                                    "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png",
-                              ),
-                              MarkerLayer(markers: [
-                                Marker(
-                                    point: LatLng(54.7349, 55.9604),
-                                    child: Container(
-                                      width: 20,
-                                      height: 20,
-                                      color: Colors.red,
-                                    ))
-                              ])
-                            ]),
-                      ),
+                      // IgnorePointer(
+                      //   child: FlutterMap(
+                      //       options: MapOptions(
+                      //           initialCenter: LatLng(
+                      //               54.7352526406467, 55.958523199814756),
+                      //           initialZoom: 16.0),
+                      //       children: [
+                      //         TileLayer(
+                      //           urlTemplate:
+                      //               "https://tile-c.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+                      //         ),
+                      //         MarkerLayer(markers: [
+                      //           Marker(
+                      //               point: LatLng(54.7349, 55.9604),
+                      //               child: Container(
+                      //                 width: 20,
+                      //                 height: 20,
+                      //                 color: Colors.red,
+                      //               ))
+                      //         ])
+                      //       ]),
+                      // ),
                       Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -528,14 +554,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             image: AssetImage('assets/sky.jpg'))),
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 50),
+                        padding: const EdgeInsets.symmetric(vertical: 50),
                         child: FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Column(
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 100),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 100),
                                 child: Text(
                                   "Контакты магазина автозапчастей НАЗВАНИЕ",
                                   style: TextStyle(
@@ -544,7 +569,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
@@ -588,12 +613,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width - 100,
-                                    child: Divider(
+                                    child: const Divider(
                                       height: 2,
                                       color: Colors.white,
                                     )),
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
@@ -630,12 +655,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width - 100,
-                                    child: Divider(
+                                    child: const Divider(
                                       height: 2,
                                       color: Colors.white,
                                     )),
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
@@ -680,7 +705,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     )),
                 Container(
                     color: MyColors.footerBackground,
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: MediaQuery.sizeOf(context).width > 1280
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -700,7 +725,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _buildfooter() {
     return [
-      Column(
+      const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -713,7 +738,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: Container(
+            child: SizedBox(
               width: 500,
               child: Text(
                 "«Надёжность, качество, успех!» — девиз нашей компании. Мы поставляем запчасти для автомобилей  иностранных производителей оптовым и розничным покупателям.  Наличие собственного склада и розничного магазина делает наше взаимодействие с клиентами максимально удобным.",
@@ -735,7 +760,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
+          SizedBox(
             width: 500,
             height: 300,
             child: PageView(
@@ -745,7 +770,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               children: [
                 Column(children: [
                   Container(
