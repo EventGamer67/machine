@@ -47,6 +47,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   supabase_flutter: ^2.5.4
   get_it: ^7.7.0
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:

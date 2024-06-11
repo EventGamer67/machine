@@ -9,6 +9,7 @@ class Ticket {
   String? vin;
   String? part;
   DateTime? created;
+  final int answer;
   Ticket({
     this.id,
     this.name,
@@ -17,6 +18,7 @@ class Ticket {
     this.vin,
     this.part,
     this.created,
+    required this.answer,
   });
 
   Ticket copyWith({
@@ -27,6 +29,7 @@ class Ticket {
     String? vin,
     String? part,
     DateTime? created,
+    int? answer,
   }) {
     return Ticket(
       id: id ?? this.id,
@@ -36,6 +39,7 @@ class Ticket {
       vin: vin ?? this.vin,
       part: part ?? this.part,
       created: created ?? this.created,
+      answer: answer ?? this.answer,
     );
   }
 
@@ -48,6 +52,7 @@ class Ticket {
       'vin': vin,
       'part': part,
       'created': created?.millisecondsSinceEpoch,
+      'answer': answer,
     };
   }
 
@@ -59,7 +64,8 @@ class Ticket {
       mail: map['mail'] != null ? map['mail'] as String : null,
       vin: map['vin'] != null ? map['vin'] as String : null,
       part: map['part'] != null ? map['part'] as String : null,
-      created: map['created'] != null ? DateTime.fromMillisecondsSinceEpoch(map['created'] as int) : null,
+      created: map['created_at'] != null ? DateTime.parse(map['created_at'] as String) : null,
+      answer: map['answer'] as int,
     );
   }
 
@@ -69,7 +75,7 @@ class Ticket {
 
   @override
   String toString() {
-    return 'Ticket(id: $id, name: $name, phone: $phone, mail: $mail, vin: $vin, part: $part, created: $created)';
+    return 'Ticket(id: $id, name: $name, phone: $phone, mail: $mail, vin: $vin, part: $part, created: $created, answer: $answer)';
   }
 
   @override
@@ -83,7 +89,8 @@ class Ticket {
       other.mail == mail &&
       other.vin == vin &&
       other.part == part &&
-      other.created == created;
+      other.created == created &&
+      other.answer == answer;
   }
 
   @override
@@ -94,6 +101,7 @@ class Ticket {
       mail.hashCode ^
       vin.hashCode ^
       part.hashCode ^
-      created.hashCode;
+      created.hashCode ^
+      answer.hashCode;
   }
 }

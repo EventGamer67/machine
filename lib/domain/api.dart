@@ -14,7 +14,8 @@ abstract class Api {
         'phone': ticket.phone,
         'mail': ticket.mail,
         'vin': ticket.vin,
-        'part': ticket.part
+        'part': ticket.part,
+        'answer': ticket.answer,
       });
       return true;
     } catch (e) {
