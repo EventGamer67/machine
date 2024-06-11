@@ -276,11 +276,65 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                                               width: 40,
                                               height: 40,
                                               child: SvgPicture.asset(
-                                                  'assets/whatsapp.svg',width: 40,height: 40,color: Colors.white, ),
+                                                'assets/whatsapp.svg',
+                                                width: 40,
+                                                height: 40,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                           Text(
-                                            "Вацап",
+                                            "Whatsapp",
+                                            style: GoogleFonts.roboto(
+                                                color: Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                  child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedAnswer = 4;
+                                  });
+                                },
+                                child: AnimatedOpacity(
+                                  opacity: selectedAnswer == 4 ? 1 : 0.6,
+                                  duration: const Duration(milliseconds: 300),
+                                  child: Container(
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color:
+                                            const Color.fromARGB(255, 119, 101, 242)),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: SizedBox(
+                                              width: 40,
+                                              height: 40,
+                                              child: SvgPicture.asset(
+                                                'assets/viber.svg',
+                                                width: 40,
+                                                height: 40,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            "Viber",
                                             style: GoogleFonts.roboto(
                                                 color: Colors.white),
                                           )
