@@ -35,9 +35,10 @@ class MapBlock extends StatelessWidget {
                           uri: Uri.parse(
                               'http://maps.yandex.ru/?rtext=~51.532201%2C46.005061&rtm=atm&source=route&l=map&rtm=atm&source=route&l=map&z=14&ll=46.005061%2C51.532201'),
                           builder: (context, followLink) => Image.asset(
-                            'marker.png',
-                            width: 200,
-                            height: 200,
+                            'assets/marker.png',
+                            width: 300,
+                            height: 300,
+                            fit: BoxFit.fitWidth,
                           ),
                         ))
                   ])
@@ -62,6 +63,7 @@ class MapBlock extends StatelessWidget {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Link(
+                    target: LinkTarget.blank,
                     uri: Uri.parse(
                         'http://maps.yandex.ru/?rtext=~51.532201%2C46.005061&rtm=atm&source=route&l=map&rtm=atm&source=route&l=map&z=14&ll=46.005061%2C51.532201'),
                     builder: (context, followLink) {
