@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:machine/presentation/fonts.dart';
 import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapBlock extends StatelessWidget {
   const MapBlock({
@@ -30,11 +31,14 @@ class MapBlock extends StatelessWidget {
                   MarkerLayer(markers: [
                     Marker(
                         point: const LatLng(51.532201, 46.005061),
-                        child: Link(
-                          target: LinkTarget.blank,
-                          uri: Uri.parse(
-                              'http://maps.yandex.ru/?rtext=~51.532201%2C46.005061&rtm=atm&source=route&l=map&rtm=atm&source=route&l=map&z=14&ll=46.005061%2C51.532201'),
-                          builder: (context, followLink) => Image.asset(
+                        child: GestureDetector(
+                          onTap: () {
+                            launchUrl(
+                              Uri.parse(
+                                  "http://maps.yandex.ru/?rtext=~51.532201%2C46.005061&rtm=atm&source=route&l=map&rtm=atm&source=route&l=map&z=14&ll=46.005061%2C51.532201"),
+                            );
+                          },
+                          child: Image.asset(
                             'assets/marker.png',
                             width: 300,
                             height: 300,
@@ -62,27 +66,29 @@ class MapBlock extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Link(
-                    target: LinkTarget.blank,
-                    uri: Uri.parse(
-                        'http://maps.yandex.ru/?rtext=~51.532201%2C46.005061&rtm=atm&source=route&l=map&rtm=atm&source=route&l=map&z=14&ll=46.005061%2C51.532201'),
-                    builder: (context, followLink) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 33, 150, 243),
-                            borderRadius: BorderRadius.circular(20)),
-                        padding: const EdgeInsets.all(10),
-                        width: 150,
-                        height: 60,
-                        child: Center(
-                          child: Text(
-                            "Перейти",
-                            style: GoogleFonts.roboto(
-                                color: Colors.white, fontSize: 20),
-                          ),
-                        ),
-                      );
-                    })),
+                child: GestureDetector(
+                  onTap: () {
+                    launchUrl(
+                      Uri.parse(
+                          "http://maps.yandex.ru/?rtext=~51.532201%2C46.005061&rtm=atm&source=route&l=map&rtm=atm&source=route&l=map&z=14&ll=46.005061%2C51.532201"),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 33, 150, 243),
+                        borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.all(10),
+                    width: 150,
+                    height: 60,
+                    child: Center(
+                      child: Text(
+                        "Перейти",
+                        style: GoogleFonts.roboto(
+                            color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                  ),
+                )),
           ),
         ],
       ),

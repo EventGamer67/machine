@@ -35,7 +35,7 @@ class _MyAppBarState extends ConsumerState<MyAppBar> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.black),
                       child: FittedBox(
-                        fit: BoxFit.scaleDown,
+                        fit: BoxFit.fitHeight,
                         child: SizedBox(
                           width: 100,
                           child: SvgPicture.asset(
