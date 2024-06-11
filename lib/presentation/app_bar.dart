@@ -88,15 +88,16 @@ class _MyAppBarState extends ConsumerState<MyAppBar> {
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                    padding: const EdgeInsets.only(
-                        top: 7, left: 15, right: 15, bottom: 8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black),
-                    child: SvgPicture.asset(
-                      'vdetalax.svg',
-                      width: 100,
+                 GestureDetector(
+                    onLongPress: () async {
+                      await ref
+                          .read(homeScreenProvider)
+                          .showLogin(context, ref);
+                    },
+                    child: Image.asset(
+                      "assets/logo.jpg",
+                      fit: BoxFit.fitHeight,
+                      height: 50,
                     )),
                 GestureDetector(
                   onTap: () {
