@@ -34,13 +34,12 @@ class _MyAppBarState extends ConsumerState<MyAppBar> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.black),
-                      child: FittedBox(
-                        fit: BoxFit.fitHeight,
-                        child: SizedBox(
-                          width: 100,
+                      child: SizedBox(
+                        width: 100,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
                           child: SvgPicture.asset(
                             'assets/vdetalax.svg',
-                            width: 100,
                           ),
                         ),
                       )),
