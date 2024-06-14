@@ -27,33 +27,35 @@ class _AdminPanelState extends ConsumerState<AdminPanel> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          alignment: Alignment.center,
-          child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1200),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Header(),
-                  const SizedBox(
-                    width: double.infinity,
-                  ),
-                  Builder(builder: (context) {
-                    return ref.watch(ticketsProvider).when(data: (data) {
-                      return TicketsVIew(data:data);
-                    }, error: (error, trace) {
-                      return Center(
-                        child: Text(error.toString()),
-                      );
-                    }, loading: () {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    });
-                  }),
-                ],
-              )),
+        child: SelectionArea(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            alignment: Alignment.center,
+            child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 1200),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Header(),
+                    const SizedBox(
+                      width: double.infinity,
+                    ),
+                    Builder(builder: (context) {
+                      return ref.watch(ticketsProvider).when(data: (data) {
+                        return TicketsVIew(data:data);
+                      }, error: (error, trace) {
+                        return Center(
+                          child: Text(error.toString()),
+                        );
+                      }, loading: () {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      });
+                    }),
+                  ],
+                )),
+          ),
         ),
       ),
     );

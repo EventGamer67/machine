@@ -22,16 +22,18 @@ class MyHomePage extends ConsumerWidget {
         slivers: const [
           MyAppBar(),
           SliverToBoxAdapter(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                MainBlock(),
-                GalleryBlock(),
-                TicketBlock(),
-                MapBlock(),
-                ContactsBlock(),
-                Footer()
-              ],
+            child: SelectionArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  MainBlock(),
+                  GalleryBlock(),
+                  TicketBlock(),
+                  MapBlock(),
+                  ContactsBlock(),
+                  Footer()
+                ],
+              ),
             ),
           ),
         ],
