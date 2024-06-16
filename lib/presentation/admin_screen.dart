@@ -26,36 +26,33 @@ class _AdminPanelState extends ConsumerState<AdminPanel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SelectionArea(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            alignment: Alignment.center,
-            child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1200),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Header(),
-                    const SizedBox(
-                      width: double.infinity,
-                    ),
-                    Builder(builder: (context) {
-                      return ref.watch(ticketsProvider).when(data: (data) {
-                        return TicketsVIew(data:data);
-                      }, error: (error, trace) {
-                        return Center(
-                          child: Text(error.toString()),
-                        );
-                      }, loading: () {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      });
-                    }),
-                  ],
-                )),
-          ),
+      body: SelectionArea(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          alignment: Alignment.center,
+          child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: ListView(
+                children: [
+                  const Header(),
+                  const SizedBox(
+                    width: double.infinity,
+                  ),
+                  Builder(builder: (context) {
+                    return ref.watch(ticketsProvider).when(data: (data) {
+                      return TicketsVIew(data: data);
+                    }, error: (error, trace) {
+                      return Center(
+                        child: Text(error.toString()),
+                      );
+                    }, loading: () {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    });
+                  }),
+                ],
+              )),
         ),
       ),
     );
@@ -64,10 +61,7 @@ class _AdminPanelState extends ConsumerState<AdminPanel> {
 
 class TicketsVIew extends StatelessWidget {
   final List<Ticket> data;
-  const TicketsVIew({
-    super.key,
-    required this.data
-  });
+  const TicketsVIew({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +70,14 @@ class TicketsVIew extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        Column(
-          children: List.generate(data.length, (index) {
-            final ticket = data[index];
-            return TicketTile(ticket: ticket);
-          }),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            children: List.generate(data.length, (index) {
+              final ticket = data[index];
+              return TicketTile(ticket: ticket);
+            }),
+          ),
         ),
       ],
     );
@@ -94,38 +91,125 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "Заявки",
-          style: GoogleFonts.raleway(
-              fontSize: 60,
-              color: Colors.black,
-              fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                    builder: (context) => const MyHomePage()));
-          },
-          child: Container(
-            width: 120,
-            height: 40,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Theme.of(context).colorScheme.primary),
-            child: Center(
-              child: Text("Выйти",
-                  style: GoogleFonts.roboto(color: Colors.white)),
-            ),
-          ),
-        ),
-      ],
+    return SizedBox(
+      child: MediaQuery.sizeOf(context).width > 650
+          ? Row(
+              children: [
+                Expanded(
+                  child: FittedBox(
+                    alignment: Alignment.centerLeft,
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      "Заявки",
+                      maxLines: 1,
+                      style: GoogleFonts.raleway(
+                          fontSize: 60,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const MyHomePage()));
+                  },
+                  child: Container(
+                    height: 60,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context).colorScheme.primary),
+                    child: Center(
+                      child: Text("Главный экран",
+                          style: GoogleFonts.roboto(
+                              color: Colors.white, fontSize: 20)),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const MyHomePage()));
+                  },
+                  child: Container(
+                    height: 60,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.redAccent),
+                    child: Center(
+                      child: Text("Выйти из аккаунта",
+                          style: GoogleFonts.roboto(
+                              color: Colors.white, fontSize: 20)),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : Column(children: [
+              Text(
+                "Заявки",
+                maxLines: 1,
+                style: GoogleFonts.raleway(
+                    fontSize: 60,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => const MyHomePage()));
+                      },
+                      child: Container(
+                        height: 60,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Theme.of(context).colorScheme.primary),
+                        child: Center(
+                          child: Text("Главный экран",
+                              style: GoogleFonts.roboto(
+                                  color: Colors.white, fontSize: 20)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => const MyHomePage()));
+                      },
+                      child: Container(
+                        height: 60,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.redAccent),
+                        child: Center(
+                          child: Text("Выйти из аккаунта",
+                              style: GoogleFonts.roboto(
+                                  color: Colors.white, fontSize: 20)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ]),
     );
   }
 }
@@ -159,9 +243,7 @@ class TicketTile extends StatelessWidget {
           Text(
             "Имя",
             style: GoogleFonts.raleway(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           Text(
             ticket.name ?? '',
@@ -170,9 +252,7 @@ class TicketTile extends StatelessWidget {
           Text(
             "Почта",
             style: GoogleFonts.raleway(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           Text(
             ticket.mail ?? '',
@@ -181,9 +261,7 @@ class TicketTile extends StatelessWidget {
           Text(
             "Телефон",
             style: GoogleFonts.raleway(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           Text(
             ticket.phone ?? '',
@@ -192,9 +270,7 @@ class TicketTile extends StatelessWidget {
           Text(
             "VIN",
             style: GoogleFonts.raleway(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           Text(
             ticket.vin ?? '',
@@ -203,9 +279,7 @@ class TicketTile extends StatelessWidget {
           Text(
             "Запчасть",
             style: GoogleFonts.raleway(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           Text(
             ticket.part ?? '',
@@ -214,16 +288,16 @@ class TicketTile extends StatelessWidget {
           Text(
             "Способ связи",
             style: GoogleFonts.raleway(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           Text(
             ticket.answer == 1
                 ? "Телефон"
                 : ticket.answer == 3
                     ? "Whatsapp"
-                    : ticket.answer == 4 ? "Viber" : "Почта",
+                    : ticket.answer == 4
+                        ? "Viber"
+                        : "Почта",
             style: const TextStyle(fontSize: 20),
           ),
           const SizedBox(
@@ -232,9 +306,7 @@ class TicketTile extends StatelessWidget {
           Text(
             "Отправлена",
             style: GoogleFonts.raleway(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
+                fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           Text(
             '${ticket.created!.year}.${ticket.created!.month}.${ticket.created!.day} - ${ticket.created!.hour > 9 ? ticket.created!.hour : '0${ticket.created!.hour}'}:${ticket.created!.minute > 9 ? ticket.created!.minute : '0${ticket.created!.minute}'}',

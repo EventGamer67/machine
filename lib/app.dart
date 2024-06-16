@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:machine/presentation/admin_screen.dart';
+import 'package:machine/presentation/colors.dart';
 import 'package:machine/presentation/home_screen.dart';
 import 'package:machine/presentation/shared/tools.dart';
 
@@ -10,10 +10,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       scrollBehavior: MyCustomScrollBehavior(),
-      title: 'В ДЕТАЛЯХ',
+      title: 'В Деталях',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: MyColors.primary),
         useMaterial3: true,
       ),
       home: const MyHomePage(),

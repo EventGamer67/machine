@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:machine/presentation/logic/home_provider.dart';
 
 class MyAppBar extends ConsumerStatefulWidget {

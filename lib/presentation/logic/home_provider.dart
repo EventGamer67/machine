@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
@@ -27,6 +25,12 @@ class AuthProvider {
     }
     return true;
   }
+
+  bool authorized() {
+    return GetIt.I.get<Supabase>().client.auth.currentUser == null
+        ? false
+        : true;
+  }
 }
 
 final homeScreenProvider = ChangeNotifierProvider<HomeScreenNotifier>((ref) {
@@ -53,6 +57,12 @@ class HomeScreenNotifier extends ChangeNotifier {
         TextEditingController(text: "");
     final TextEditingController passwordController =
         TextEditingController(text: "");
+
+    if (ref.read(authProvider).authorized()) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const AdminPanel()));
+      return;
+    }
 
     await showDialog(
         context: context,
