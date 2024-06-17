@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_page_view_indicator/flutter_page_view_indicator.dart';
 import 'package:machine/presentation/colors.dart';
@@ -31,8 +30,9 @@ class _FooterState extends State<Footer> {
   _buildfooter() {
     return [
       const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: EdgeInsets.all(8.0),
@@ -61,13 +61,13 @@ class _FooterState extends State<Footer> {
         ],
       ),
       Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 500,
-            height: 220,
+          ConstrainedBox(
+            constraints:
+                const BoxConstraints(maxWidth: 500, minHeight: 220, maxHeight: 250),
             child: PageView(
               onPageChanged: (value) {
                 setState(() {
@@ -77,7 +77,9 @@ class _FooterState extends State<Footer> {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               children: [
-                Column(children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.grey.withOpacity(0.2),
@@ -122,7 +124,9 @@ class _FooterState extends State<Footer> {
                     ),
                   )
                 ]),
-                Column(children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                   Container(
                     decoration: BoxDecoration(
                         color: Colors.grey.withOpacity(0.2),

@@ -195,10 +195,15 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                                               Icons.phone,
                                               color: Colors.green,
                                             ),
-                                            Text(
-                                              "Телефон",
-                                              style: GoogleFonts.roboto(
-                                                  color: Colors.green),
+                                            FittedBox(
+                                              fit: BoxFit.fitWidth,
+                                              child: Text(
+                                                "Телефон",
+                                                maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                                style: GoogleFonts.roboto(
+                                                    color: Colors.green),
+                                              ),
                                             )
                                           ],
                                         ),
@@ -234,10 +239,15 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                                             Icons.email,
                                             color: Colors.white,
                                           ),
-                                          Text(
-                                            "Почта",
-                                            style: GoogleFonts.roboto(
-                                                color: Colors.white),
+                                          FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              "Почта",
+                                              maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                              style: GoogleFonts.roboto(
+                                                  color: Colors.white),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -283,10 +293,15 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                                               ),
                                             ),
                                           ),
-                                          Text(
-                                            "Whatsapp",
-                                            style: GoogleFonts.roboto(
-                                                color: Colors.white),
+                                          FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              "Whatsapp",
+                                              maxLines: 1,
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.roboto(
+                                                  color: Colors.white),
+                                            ),
                                           )
                                         ],
                                       ),
@@ -311,8 +326,8 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                                     height: 80,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
-                                        color:
-                                            const Color.fromARGB(255, 119, 101, 242)),
+                                        color: const Color.fromARGB(
+                                            255, 119, 101, 242)),
                                     child: Center(
                                       child: Column(
                                         mainAxisAlignment:
@@ -333,10 +348,15 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                                               ),
                                             ),
                                           ),
-                                          Text(
-                                            "Viber",
-                                            style: GoogleFonts.roboto(
-                                                color: Colors.white),
+                                          FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              "Viber",
+                                              maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                              style: GoogleFonts.roboto(
+                                                  color: Colors.white),
+                                            ),
                                           )
                                         ],
                                       ),

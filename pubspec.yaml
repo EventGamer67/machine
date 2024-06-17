@@ -49,6 +49,7 @@ dependencies:
   get_it: ^7.7.0
   flutter_riverpod: ^2.5.1
 
+  latlong2: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

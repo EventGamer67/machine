@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:machine/presentation/fonts.dart';
-import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapBlock extends StatelessWidget {
