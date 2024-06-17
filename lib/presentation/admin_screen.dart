@@ -134,9 +134,9 @@ class Header extends StatelessWidget {
                   width: 10,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    
-                    GetIt.I.get<Supabase>().client.auth.signOut();
+                  onTap: () async {
+
+                    await GetIt.I.get<Supabase>().client.auth.signOut();
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const MyHomePage()));
                   },
