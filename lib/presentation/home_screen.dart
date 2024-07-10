@@ -10,6 +10,8 @@ import 'package:machine/presentation/blocks/ticket_block.dart';
 import 'package:machine/presentation/logic/home_provider.dart';
 import 'package:machine/presentation/shared/tools.dart';
 
+import 'blocks/products_block.dart';
+
 class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key});
 
@@ -28,6 +30,7 @@ class MyHomePage extends ConsumerWidget {
                 children: [
                   MainBlock(),
                   GalleryBlock(),
+                  //ProductsBlock(),
                   TicketBlock(),
                   MapBlock(),
                   ContactsBlock(),

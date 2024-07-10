@@ -40,6 +40,28 @@ final homeScreenProvider = ChangeNotifierProvider<HomeScreenNotifier>((ref) {
 class HomeScreenNotifier extends ChangeNotifier {
   final scrollController = ScrollController();
 
+  Future<void> deleteTicket(Ticket ticket, BuildContext context) async {
+    final res = await Api.deleteTicket(ticket);
+    if (res) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Заявка удалена")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Что-то пошло не так")));
+    }
+  }
+
+  Future<void> updateTicket(Ticket ticket, BuildContext context) async {
+    final res = await Api.updateTicket(ticket);
+    if (res) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Заявка обновлена")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Что-то пошло не так")));
+    }
+  }
+
   Future<void> sendMessage(Ticket ticket, BuildContext context) async {
     final res = await Api.sendTicket(ticket);
 
