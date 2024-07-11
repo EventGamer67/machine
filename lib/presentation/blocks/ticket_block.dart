@@ -18,7 +18,6 @@ final formProvider = ChangeNotifierProvider<FormData2>((ref) {
 class FormData2 extends ChangeNotifier {
   String? name;
   String? vin;
-  String? email;
   String? part;
   String? phone;
 
@@ -27,7 +26,6 @@ class FormData2 extends ChangeNotifier {
       name!.isNotEmpty &&
       vin != null &&
       vin!.isNotEmpty &&
-      email != null &&
       part!.isNotEmpty &&
       phone != null &&
       phone!.isNotEmpty;
@@ -112,7 +110,7 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                     ),
                     MyTextField(
                       padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
-                      hint: 'Ваш телефон *',
+                      hint: 'Телефон *',
                       errorText: ref.watch(formProvider).phone == ''
                           ? "Поле не может быть пустым"
                           : null,
@@ -121,17 +119,17 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                         ref.read(formProvider).notifyListeners();
                       },
                     ),
-                    MyTextField(
-                      padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
-                      hint: 'Ваша почта *',
-                      errorText: ref.watch(formProvider).email == ''
-                          ? "Поле не может быть пустым"
-                          : null,
-                      onChanged: (value) {
-                        ref.read(formProvider).email = value;
-                        ref.read(formProvider).notifyListeners();
-                      },
-                    ),
+                    // MyTextField(
+                    //   padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
+                    //   hint: 'Ваша почта *',
+                    //   errorText: ref.watch(formProvider).email == ''
+                    //       ? "Поле не может быть пустым"
+                    //       : null,
+                    //   onChanged: (value) {
+                    //     ref.read(formProvider).email = value;
+                    //     ref.read(formProvider).notifyListeners();
+                    //   },
+                    // ),
                     MyTextField(
                       padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
                       hint: 'VIN номер автомобиля *',
@@ -210,51 +208,51 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                                       )),
                                 ),
                               )),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                  child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedAnswer = 2;
-                                  });
-                                },
-                                child: AnimatedOpacity(
-                                  opacity: selectedAnswer == 2 ? 1 : 0.6,
-                                  duration: const Duration(milliseconds: 300),
-                                  child: Container(
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.blue),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          const Icon(
-                                            Icons.email,
-                                            color: Colors.white,
-                                          ),
-                                          FittedBox(
-                                            fit: BoxFit.fitWidth,
-                                            child: Text(
-                                              "Почта",
-                                              maxLines: 1,
-                                                textAlign: TextAlign.center,
-                                              style: GoogleFonts.roboto(
-                                                  color: Colors.white),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )),
+                              // const SizedBox(
+                              //   width: 20,
+                              // ),
+                              // Expanded(
+                              //     child: GestureDetector(
+                              //   onTap: () {
+                              //     setState(() {
+                              //       selectedAnswer = 2;
+                              //     });
+                              //   },
+                              //   child: AnimatedOpacity(
+                              //     opacity: selectedAnswer == 2 ? 1 : 0.6,
+                              //     duration: const Duration(milliseconds: 300),
+                              //     child: Container(
+                              //       height: 80,
+                              //       decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(20),
+                              //           color: Colors.blue),
+                              //       child: Center(
+                              //         child: Column(
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.center,
+                              //           crossAxisAlignment:
+                              //               CrossAxisAlignment.center,
+                              //           children: [
+                              //             const Icon(
+                              //               Icons.email,
+                              //               color: Colors.white,
+                              //             ),
+                              //             FittedBox(
+                              //               fit: BoxFit.fitWidth,
+                              //               child: Text(
+                              //                 "Почта",
+                              //                 maxLines: 1,
+                              //                   textAlign: TextAlign.center,
+                              //                 style: GoogleFonts.roboto(
+                              //                     color: Colors.white),
+                              //               ),
+                              //             )
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // )),
                               const SizedBox(
                                 width: 20,
                               ),
@@ -382,7 +380,7 @@ class _TicketBlockState extends ConsumerState<TicketBlock> {
                               vin: pr.vin,
                               part: pr.part,
                               answer: selectedAnswer,
-                              mail: pr.email);
+                              mail: "");
 
                           ref
                               .read(homeScreenProvider)

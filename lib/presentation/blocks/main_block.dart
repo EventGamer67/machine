@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:machine/presentation/colors.dart';
 import 'package:machine/presentation/logic/home_provider.dart';
 import 'package:machine/presentation/shared/blur.dart';
@@ -72,14 +73,14 @@ class MainBlock extends ConsumerWidget {
                           child: Container(
                             margin: const EdgeInsets.only(top: 30),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white),
+                              color: Colors.blue,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             padding: const EdgeInsets.all(16),
-                            child: const Text(
-                              'ОТПРАВИТЬ ЗАЯВКУ',
+                            child:  Text(
+                              'Отправить заявку',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 24),
+                                  GoogleFonts.raleway(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold ),
                             ),
                           )),
                     ),

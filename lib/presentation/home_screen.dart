@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:machine/presentation/app_bar.dart';
@@ -8,6 +10,7 @@ import 'package:machine/presentation/blocks/main_block.dart';
 import 'package:machine/presentation/blocks/map_block.dart';
 import 'package:machine/presentation/blocks/ticket_block.dart';
 import 'package:machine/presentation/logic/home_provider.dart';
+import 'package:machine/presentation/logic/products_provider.dart';
 import 'package:machine/presentation/shared/tools.dart';
 
 import 'blocks/products_block.dart';
@@ -30,7 +33,19 @@ class MyHomePage extends ConsumerWidget {
                 children: [
                   MainBlock(),
                   GalleryBlock(),
-                  //ProductsBlock(),
+                  // Builder(builder: (context) {
+                  //   return ref.watch(productsProvider).when(data: (data) {
+                  //     log(data.toString());
+                  //     if (data.isEmpty) {
+                  //       return const SizedBox.shrink();
+                  //     }
+                  //     return ProductsBlock(products: data);
+                  //   }, error: (error, trace) {
+                  //     return const SizedBox.shrink();
+                  //   }, loading: () {
+                  //     return const SizedBox.shrink();
+                  //   });
+                  // }),
                   TicketBlock(),
                   MapBlock(),
                   ContactsBlock(),

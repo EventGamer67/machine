@@ -50,6 +50,8 @@ dependencies:
   flutter_riverpod: ^2.5.1
 
   latlong2: any
+  image_picker: ^1.1.2
+  uuid: ^4.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
