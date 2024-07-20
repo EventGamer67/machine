@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:machine/presentation/colors.dart';
 import 'package:machine/presentation/logic/home_provider.dart';
+import 'package:machine/presentation/screens/catalog/catalog_screen.dart';
 import 'package:machine/presentation/shared/blur.dart';
 import 'package:machine/presentation/widgets/triangle_painter.dart';
 import 'package:octo_image/octo_image.dart';
@@ -15,7 +16,7 @@ class MainBlock extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      height: 1350,
+      height: MediaQuery.sizeOf(context).height-60,
       child: Stack(
         children: [
           OctoImage(
@@ -25,7 +26,7 @@ class MainBlock extends ConsumerWidget {
                 );
               },
               fit: BoxFit.cover,
-              height: 1350,
+              height: MediaQuery.sizeOf(context).height-60,
               placeholderBuilder:
                   blurHashPlaceholderBuilder("LFD]rG^+M{M{0000xu-;~q~qWBD%"),
               width: MediaQuery.of(context).size.width,
@@ -37,7 +38,7 @@ class MainBlock extends ConsumerWidget {
               constraints: const BoxConstraints(maxWidth: 2200),
               child: Container(
                 margin: EdgeInsets.only(
-                    top: 360,
+                    top:( (MediaQuery.sizeOf(context).height-60)/2)-200,
                     left: MediaQuery.sizeOf(context).width < 900 ? 50 : 100),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,6 +82,33 @@ class MainBlock extends ConsumerWidget {
                               'Отправить заявку',
                               style:
                                   GoogleFonts.raleway(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold ),
+                            ),
+                          )),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const CatalogScreen()));
+                      },
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 30),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.all(16),
+                            child:  Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.menu, color: Colors.white, ),
+                                const SizedBox(width:10),
+                                Text(
+                                  'Каталог',
+                                  style:
+                                      GoogleFonts.raleway(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold ),
+                                ),
+                              ],
                             ),
                           )),
                     ),
